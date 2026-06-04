@@ -3,6 +3,9 @@ from app.api.auth_routes import router as auth_router
 from app.api.report_routes import router as report_router
 from app.api.chat_routes import router as chat_router
 from fastapi.middleware.cors import CORSMiddleware
+from app.database.db import Base, engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Medical RAG API")
 app.add_middleware(

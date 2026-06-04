@@ -3,6 +3,7 @@ import uuid
 
 from fastapi import (
     APIRouter,
+    HTTPException,
     UploadFile,
     File,
     Depends,
@@ -13,6 +14,7 @@ from sqlalchemy.orm import Session
 
 from app.database.db import get_db
 from app.schemas.report_schema import ReportResponse
+from app.models.chat_model import Chat
 
 from app.models.user_model import User
 from app.models.report_model import Report
@@ -139,3 +141,32 @@ def get_my_reports(
     ).all()
 
     return reports
+@router.delete("/{report_id}",dependencies=[Depends(JWTBearer())])
+def delete_report(
+    report_id: str,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    user_email = request.state.user["sub"]
+
+    user = db.query(User).filter(
+        User.email == user_email
+    ).first()
+
+    report = db.query(Report).filter(
+        Report.report_id == report_id,
+        Report.user_id == user.id
+    ).first()
+
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    
+    db.query(Chat).filter(
+        Chat.report_id == report.report_id
+    ).delete()
+    db.commit()
+
+    db.delete(report)
+    db.commit()
+
+    return {"message": "Report deleted successfully"}
