@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 export default function ChatBox({
     messages,
     question,
@@ -30,7 +31,8 @@ export default function ChatBox({
                 }`}
               >
   
-                <p>{msg.text}</p>
+            <ReactMarkdown>{msg.text}</ReactMarkdown>
+
   
               </div>
   

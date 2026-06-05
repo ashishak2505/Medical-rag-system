@@ -1,40 +1,53 @@
 export default function UploadBox({
-    file,
-    setFile,
-    handleUpload,
-    uploading
-  }) {
-  
-    return (
-  
-      <div className="bg-white rounded-3xl shadow-xl p-6 border">
-  
-        <div className="border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center">
-  
-          <div className="text-5xl mb-4">
-            📄
-          </div>
-  
-          <h3 className="text-xl font-semibold mb-2">
-            Upload Your Report
-          </h3>
-  
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="border rounded-lg p-2 mb-4"
-          />
-  
-          <button
-            onClick={handleUpload}
-            className="px-5 py-2 rounded-xl bg-black text-white"
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </button>
-  
-        </div>
-  
+  file,
+  setFile,
+  handleUpload,
+  uploading
+}) {
+  return (
+    <div className="bg-white rounded-3xl shadow-md border p-6 mb-6">
+
+      <h2 className="text-xl font-bold mb-4">
+        Upload Report
+      </h2>
+
+      <div className="flex items-center gap-3">
+
+        <input
+          type="file"
+          onChange={(e) => setFile(e.target.files[0])}
+          className="
+            flex-1
+            border
+            rounded-xl
+            p-3
+            text-sm
+          "
+        />
+
+        <button
+          onClick={handleUpload}
+          className="
+            px-6
+            py-3
+            rounded-xl
+            bg-black
+            text-white
+            hover:bg-slate-800
+            transition
+          "
+        >
+          {uploading ? "Uploading..." : "Upload"}
+        </button>
+
       </div>
-  
-    );
-  }
+
+      {file && (
+        <p className="mt-3 text-sm text-slate-500">
+          Selected: {file.name}
+        </p>
+      )}
+
+    </div>
+  );
+}
