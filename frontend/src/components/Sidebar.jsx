@@ -1,4 +1,4 @@
-import ReportCard from "./ReportCard";
+import ReportCard from "./Reportcard";
 
 export default function Sidebar({
   reports,
